@@ -1,5 +1,5 @@
 const router = require('koa-router')()
-const { getTemplateField } = require('../server/common')
+const { getTemplateField } = require('../util/common')
 
 router.get('/', async (ctx, next) => {
   await ctx.render('home', getTemplateField(ctx))
