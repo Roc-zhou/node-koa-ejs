@@ -8,7 +8,7 @@
 [ejs官网](https://ejs.bootcss.com/)
 
 
-## use
+## run
 ```
 git clone https://github.com/Roc-zhou/node-koa-ejs.git
 
@@ -21,3 +21,11 @@ npm run start -> server run 3000
 浏览器打开 http://localhost:3000/
 ```
 
+### 介绍
+
+小型后台管理系统
+功能
+- 注册
+- 登录
+- 权限管理（增加、删除、修改）
+- 账户管理

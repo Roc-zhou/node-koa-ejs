@@ -1,6 +1,6 @@
 
 const crypto = require("crypto");
-const en_md5 = crypto.createHash("md5"); 
+const en_md5 = crypto.createHash("md5");
 
 const getTemplateField = ({ originalUrl: path, }, title = 'Roc_zhou', date = new Date()) => ({
   path,
@@ -17,8 +17,16 @@ const getTemplateField = ({ originalUrl: path, }, title = 'Roc_zhou', date = new
 })
 const md5 = str => en_md5.update(str).digest('hex')
 
+const randomString = (len = 8) => {
+  const $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678',
+    maxPos = $chars.length
+  let pwd = ''
+  for (let i = 0; i < len; i++) pwd += $chars.charAt(Math.floor(Math.random() * maxPos))
+  return pwd
+}
 
 module.exports = {
   getTemplateField,
   md5,
+  randomString
 }

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <% include ./templete/head %>
+  <style>
+    .box {
+      margin: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1><%= title %></h1>
+  <div class="box">
+    <form action="/register" method="post">
+      <p>用户名: <input type="text" name="userName" /></p>
+      <p>密码: <input type="password" name="userPwd" /></p>
+      <input type="submit" value="注册" />
+    </form>
+
+  </div>
+</body>
+
+</html>

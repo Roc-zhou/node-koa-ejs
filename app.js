@@ -5,33 +5,32 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+const db = require('./util/sql')
 
 const index = require('./routes/index')
+
 
 // error handler
 onerror(app)
 
-app.use(logger())
-// middlewares
-app.use(bodyparser({
-  enableTypes: ['json', 'form', 'text']
-}))
-app.use(json())
-app.use(require('koa-static')(__dirname + '/public'))
+db && (app.context.db = db) // ctx 原型 ctx.db()
 
-app.use(views(__dirname + '/views', {
-  extension: 'ejs'
-}))
-
-// logger
-app.use(async (ctx, next) => {
-  const start = new Date()
-  await next()
-  const ms = new Date() - start
-  console.log(`${ctx.method} ${ctx.url} - ${ms}ms ****************************************`)
-})
-
-// routes
+app.use(logger()).
+  use(bodyparser({
+    enableTypes: ['json', 'form', 'text']
+  })).
+  use(json()).
+  use(require('koa-static')(__dirname + '/public')).
+  use(views(__dirname + '/views', {
+    extension: 'ejs'
+  })).
+  use(async (ctx, next) => {
+    const start = new Date()
+    await next()
+    const ms = new Date() - start
+    console.log(`${ctx.method} ${ctx.url} - ${ms}ms ****************************************`)
+  })
+  
 app.use(index.routes(), index.allowedMethods())
 
 // error-handling
