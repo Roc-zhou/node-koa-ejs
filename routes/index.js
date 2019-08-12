@@ -36,7 +36,7 @@ router.post('/register', async (ctx, next) => {
   const s1 = `SELECT name from user WHERE name = ?`,
     d1 = await ctx.db(s1, [userName]),
     andomStr = randomString()
-  if (d1.length === 0) {
+  if (!d1.length) {
     // 插入用户
     const in1 = `INSERT INTO user (name,slot_code,password,create_time) VALUES (?,?,?,?)`,
       insterResult = await ctx.db(in1, [userName, andomStr, md5(userPwd + andomStr), $dealDate(new Date())])
@@ -54,13 +54,47 @@ router.post('/register', async (ctx, next) => {
     })
   }
 
-
-
-
 })
 
 router.post('/login', async (ctx, next) => {
-  const { name, password } = ctx.request.body
+  const { userName, userPwd } = ctx.request.body
+
+  if (!userName) return ctx.render('errorWar', {
+    ...getTemplateField(ctx, '错误提示'),
+    errorText: '用户名不能为空'
+  })
+  if (!userPwd) return ctx.render('errorWar', {
+    ...getTemplateField(ctx, '错误提示'),
+    errorText: '密码不能为空'
+  })
+
+  // 查看用户是否存在
+  const s1 = `SELECT name from user WHERE name = ?`,
+    d1 = await ctx.db(s1, [userName])
+  if (!d1.length) {
+    // 不存在
+    return ctx.render('errorWar', {
+      ...getTemplateField(ctx, '错误提示'),
+      errorText: '该用户未注册，请先注册'
+    })
+  } else {
+    const slotData = await ctx.db(`SELECT slot_code from user WHERE name = ?;`, [userName]),
+      userPassword = await ctx.db(`SELECT password from user WHERE name = ?;`, [userName])
+  
+    if (md5(userPwd + slotData[0].slot_code) === userPassword[0].password) {
+      return ctx.render('errorWar', {
+        ...getTemplateField(ctx, '错误提示'),
+        errorText: '登录成功'
+      })
+    } else {
+      return ctx.render('errorWar', {
+        ...getTemplateField(ctx, '错误提示'),
+        errorText: '用户或密码错误'
+      })
+    }
+    
+  }
+
 
 })
 
