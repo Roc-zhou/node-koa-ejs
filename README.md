@@ -21,3 +21,6 @@ npm run start -> server run 3000
 浏览器打开 http://localhost:3000/
 ```
 
+### 功能
+
++ 注册
