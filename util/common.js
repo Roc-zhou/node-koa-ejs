@@ -1,6 +1,5 @@
 
 const crypto = require("crypto");
-const en_md5 = crypto.createHash("md5");
 
 const getTemplateField = ({ originalUrl: path, }, title = 'Roc_zhou', date = new Date()) => ({
   path,
@@ -15,7 +14,7 @@ const getTemplateField = ({ originalUrl: path, }, title = 'Roc_zhou', date = new
   ],
   description: 'Roc_zhou', // 描述
 })
-const md5 = str => en_md5.update(str).digest('hex')
+const md5 = str => crypto.createHash("md5").update(str).digest('hex')
 
 const randomString = (len = 8) => {
   const $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678',
