@@ -30,7 +30,7 @@ app.use(logger()).
     const ms = new Date() - start
     console.log(`${ctx.method} ${ctx.url} - ${ms}ms ****************************************`)
   })
-  
+
 app.use(index.routes(), index.allowedMethods())
 
 // error-handling
